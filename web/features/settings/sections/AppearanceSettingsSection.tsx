@@ -16,6 +16,12 @@ import {
   selectOptionClass,
 } from "@/components/settings/shared";
 
+const LANGUAGE_OPTIONS = [
+  { value: "en", labelKey: "language.english" },
+  { value: "zh", labelKey: "language.chinese" },
+  { value: "fr", labelKey: "language.french" },
+] as const;
+
 const CODE_BLOCK_PREVIEW_SNIPPET = `def fibonacci(n):
     """Generate the first n Fibonacci numbers."""
     a, b = 0, 1
@@ -84,17 +90,17 @@ export default function AppearanceSettingsPage() {
           )}
           control={
             <div className="flex gap-0.5 rounded-lg bg-[var(--muted)] p-0.5">
-              {(["en", "zh"] as const).map((v) => (
+              {LANGUAGE_OPTIONS.map(({ value, labelKey }) => (
                 <button
-                  key={v}
-                  onClick={() => updateLanguage(v)}
+                  key={value}
+                  onClick={() => updateLanguage(value)}
                   className={`rounded-md px-2.5 py-1 text-[12px] transition-all ${
-                    language === v
+                    language === value
                       ? "bg-[var(--card)] font-medium text-[var(--foreground)] shadow-sm"
                       : "text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
                   }`}
                 >
-                  {v === "en" ? t("language.english") : t("language.chinese")}
+                  {t(labelKey)}
                 </button>
               ))}
             </div>
@@ -107,7 +113,7 @@ export default function AppearanceSettingsPage() {
           )}
           control={
             <div className="flex gap-0.5 rounded-lg bg-[var(--muted)] p-0.5">
-              {(["en", "zh"] as const).map((value) => (
+              {LANGUAGE_OPTIONS.map(({ value, labelKey }) => (
                 <button
                   key={value}
                   onClick={() => updateResponseLanguage(value)}
@@ -117,9 +123,7 @@ export default function AppearanceSettingsPage() {
                       : "text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
                   }`}
                 >
-                  {value === "en"
-                    ? t("language.english")
-                    : t("language.chinese")}
+                  {t(labelKey)}
                 </button>
               ))}
             </div>
